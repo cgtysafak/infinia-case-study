@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS Experience;
 DROP TABLE IF EXISTS Report;
 DROP TABLE IF EXISTS CareerExpert;
 DROP TABLE IF EXISTS Recruiter;
-DROP TABLE IF EXISTS RegularUser;
+DROP TABLE IF EXISTS Artist;
 DROP TABLE IF EXISTS NonAdmin;
 DROP TABLE IF EXISTS Admin;
 DROP TABLE IF EXISTS User;
@@ -48,7 +48,7 @@ CREATE TABLE NonAdmin(
     FOREIGN KEY(user_id) REFERENCES User(user_id)
 );
 
-CREATE TABLE RegularUser(
+CREATE TABLE Artist(
     user_id INTEGER PRIMARY KEY,
     portfolio_url VARCHAR(255),
     avg_career_grd REAL,
@@ -124,11 +124,11 @@ CREATE TRIGGER IF NOT EXISTS update_average
     AFTER INSERT ON CareerGrade
     FOR EACH ROW
     BEGIN
-        UPDATE RegularUser
+        UPDATE Artist
         SET avg_career_grd = (
             SELECT AVG(grade) FROM CareerGrade C WHERE C.user_id = NEW.user_id
         )
-        WHERE RegularUser.user_id = NEW.user_id;
+        WHERE Artist.user_id = NEW.user_id;
     END;
 
 CREATE TABLE Job(
@@ -231,9 +231,9 @@ CREATE TABLE Application(
 
 INSERT INTO User(full_name, username, password, email_address, dp_url, date_of_registration, user_type)
 VALUES
-    ('John Doe', 'johndoe', 'password123', 'johndoe@example.com', 'https://example.com/johndoe.jpg', '2023-05-13 10:30:00', 'RegularUser'),
-    ('Jane Smith', 'janesmith', 'letmein', 'janesmith@example.com', 'https://example.com/janesmith.jpg', '2023-05-14 15:45:00', 'Recruiter'),
-    ('Robert Johnson', 'robjohnson', 'secret123', 'robjohnson@example.com', NULL, '2023-05-15 09:00:00', 'RegularUser'),
+    ('John Doe', 'johndoe', 'password123', 'johndoe@example.com', 'https://example.com/johndoe.jpg', '2023-05-13 10:30:00', 'Artist'),
+    ('Jane Smith', 'janesmith', 'letmein', 'janesmith@example.com', 'https://example.com/janesmith.jpg', '2023-05-14 15:45:00', 'Artist'),
+    ('Robert Johnson', 'robjohnson', 'secret123', 'robjohnson@example.com', NULL, '2023-05-15 09:00:00', 'Artist'),
     ('Adison Miner', 'admin', 'admin123', 'admin@example.com', NULL, '2023-05-24 20:15:00', 'Admin'),
     ('Jake Ray', 'jakeray', 'hello987', 'jaker@example.com', 'https://example.com/jaker.jpg', '2023-01-09 22:33:44', 'CareerExpert'),
     ('Aubrey Dunne', 'aubrey', 'hey987', 'aubrey@example.com', NULL, '2023-06-02 00:14:24', 'Recruiter');
@@ -250,7 +250,7 @@ VALUES
     (5, 2, '1989-03-13', 'Career Expert', 'Career Advisor'),
     (6, 4, '1973-06-09', 'Software Talent Hunter', 'MS Office');
 
-INSERT INTO RegularUser(user_id, portfolio_url, avg_career_grd)
+INSERT INTO Artist(user_id, portfolio_url, avg_career_grd)
 VALUES
     (1, 'https://example.com/janesmith.pdf', 97.89),
     (3, 'https://example.com/robj.pdf', 85.324 );
@@ -266,7 +266,7 @@ VALUES
 
 INSERT INTO Report(report_id, report_url, start_date, location, job_type, user_type, creator_id)
 VALUES
-    (1, 'https://example.com/report.pdf', '2023-02-25 14:32:56', 'Ankara', 'Part-Time', 'Regular User', 4);
+    (1, 'https://example.com/report.pdf', '2023-02-25 14:32:56', 'Ankara', 'Part-Time', 'Artist', 4);
 
 INSERT INTO Experience(experience_id, user_id, description, start_date, end_date)
 VALUES

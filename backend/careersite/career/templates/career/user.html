@@ -14,7 +14,7 @@
                     <p class="card-title"><b>Registeration Date:</b> {{user.6}}</p>
                     <p class="card-title"><b>Account Type:</b> {{user.7}}</p>
                     <hr/>
-                    {% if profile_user_type == 'RegularUser'%}
+                    {% if profile_user_type == 'Artist'%}
                         <p class="card-title"><b>Current Company:</b> {{user_info.7}}</p>
                         <p class="card-title"><b>Profession:</b> {{user_info.6}}</p>
                         <p class="card-title"><b>Skills:</b> {{user_info.7}}</p>
@@ -34,7 +34,7 @@
                         <div class="alert alert-warning" role="alert">
                             THATS YOUR PROFILE.
                         </div>
-                    {% elif current_user_type == 'CareerExpert' and profile_user_type == 'RegularUser'%}
+                    {% elif current_user_type == 'CareerExpert' and profile_user_type == 'Artist'%}
                         <button class="btn btn-primary" onclick="location.href='/grading/{{user.0}}'" type="button">
                             Grade this profile!
                         </button>

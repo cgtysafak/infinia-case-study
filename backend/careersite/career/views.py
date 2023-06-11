@@ -34,7 +34,7 @@ class HomeView(View):
 class UsersView(View):
     def get(self, request):
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM User;")
+        cursor.execute("SELECT * FROM User NATURAL JOIN Artist;")
         users = cursor.fetchall()
         cursor.close()
 
@@ -115,9 +115,9 @@ class SignUpView(View):
                 connection.commit()
                 print(user_type)
 
-                if user_type == "Job Hunter":
+                if user_type == "Artist":
                     cursor = connection.cursor()
-                    cursor.execute("INSERT INTO RegularUser(user_id) VALUES(%s);", user_id)
+                    cursor.execute("INSERT INTO Artist(user_id) VALUES(%s);", user_id)
                     cursor.close()
                     connection.commit()
 
@@ -546,18 +546,18 @@ class ProfileView(View):
         cursor.close()
         
         cursor = connection.cursor()
-        if profile_user_type[0] == 'RegularUser':
-            cursor.execute("SELECT U.full_name, N.birth_date, U.email_address, U.dp_url, U.username, U.password, N.profession, C.name, N.skills, R.portfolio_url, R.avg_career_grd FROM RegularUser as R JOIN NonAdmin as N JOIN User as U JOIN Company as C WHERE N.company_id = C.company_id AND R.user_id = N.user_id AND N.user_id = U.user_id AND U.user_id=%s", [profile_id])
+        if profile_user_type[0] == 'Artist':
+            cursor.execute("SELECT U.full_name, N.birth_date, U.email_address, U.dp_url, U.username, U.password, N.profession, C.name, N.skills, R.portfolio_url, R.avg_career_grd FROM Artist as R JOIN NonAdmin as N JOIN User as U JOIN Company as C WHERE N.company_id = C.company_id AND R.user_id = N.user_id AND N.user_id = U.user_id AND U.user_id=%s", [profile_id])
         elif profile_user_type[0] == 'Recruiter':
             cursor.execute("SELECT U.full_name, N.birth_date, U.email_address, U.dp_url, U.username, U.password, N.profession, C.name, N.skills FROM Recruiter as R JOIN NonAdmin as N JOIN User as U JOIN Company as C WHERE N.company_id = C.company_id AND R.user_id = N.user_id AND N.user_id = U.user_id AND U.user_id=%s", [profile_id])
         elif profile_user_type[0] == 'CareerExpert':
             cursor.execute("SELECT U.full_name, N.birth_date, U.email_address, U.dp_url, U.username, U.password, N.profession, CO.name, N.skills FROM CareerExpert as C JOIN NonAdmin as N JOIN User as U JOIN Company as CO WHERE CO.company_id = N.company_id AND C.user_id = N.user_id AND N.user_id = U.user_id AND U.user_id=%s", [profile_id])
         elif profile_user_type[0] == 'Admin':
             return render(request, 'career/user.html', {'user': user, 'user_info': None, 'current_user_type': current_user_type[0], 'profile_user_type': profile_user_type[0], 'current_user_id': current_user_id})
-        user_info = cursor.fetchall()
+        user_info = cursor.fetchone()
         cursor.close()
         
-        return render(request, 'career/user.html', {'user': user, 'user_info': user_info[0], 'current_user_type': current_user_type[0], 'profile_user_type': profile_user_type[0], 'current_user_id': current_user_id})
+        return render(request, 'career/user.html', {'user': user, 'user_info': user_info, 'current_user_type': current_user_type[0], 'profile_user_type': profile_user_type[0], 'current_user_id': current_user_id})
 
 class ProfileEditView(View):
     def get(self, request, user_id):
@@ -572,8 +572,8 @@ class ProfileEditView(View):
         cursor.close()
         
         cursor = connection.cursor()
-        if user_type[0] == 'RegularUser':
-            cursor.execute("SELECT * FROM User NATURAL JOIN NonAdmin NATURAL JOIN RegularUser WHERE user_id = %s;", [user_id])
+        if user_type[0] == 'Artist':
+            cursor.execute("SELECT * FROM User NATURAL JOIN NonAdmin NATURAL JOIN Artist WHERE user_id = %s;", [user_id])
         elif user_type[0] == 'Recruiter':
             cursor.execute("SELECT * FROM User NATURAL JOIN NonAdmin WHERE user_id = %s;", [user_id])
         elif user_type[0] == 'CareerExpert':
@@ -609,8 +609,8 @@ class ProfileEditView(View):
             
             if user_type[0] != 'Admin':
                 cursor.execute("UPDATE NonAdmin SET birth_date=%s, profession=%s, skills=%s WHERE user_id=%s;", (birth_date, profession, skills, user_id))
-            if user_type[0] == 'RegularUser':   
-                cursor.execute("UPDATE RegularUser SET portfolio_url=%s WHERE user_id=%s;", (portfolio_url, user_id))
+            if user_type[0] == 'Artist':   
+                cursor.execute("UPDATE Artist SET portfolio_url=%s WHERE user_id=%s;", (portfolio_url, user_id))
             
             connection.commit()
             cursor.close()
@@ -624,7 +624,7 @@ class GradingView(View):
         cursor.execute("SELECT user_id FROM CareerExpert WHERE user_id=%s", [expert_id])
         expert = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM RegularUser Natural Join User WHERE user_id=%s", [user_id])
+        cursor.execute("SELECT * FROM Artist Natural Join User WHERE user_id=%s", [user_id])
         user = cursor.fetchone()
 
         if expert is None:
@@ -640,7 +640,7 @@ class GradingView(View):
         cursor.execute("SELECT user_id FROM CareerExpert WHERE user_id=%s", [expert_id])
         expert = cursor.fetchone()
 
-        cursor.execute("SELECT * FROM RegularUser Natural Join User WHERE user_id=%s", [user_id])
+        cursor.execute("SELECT * FROM Artist Natural Join User WHERE user_id=%s", [user_id])
         user = cursor.fetchone()
         cursor.close()
 
