@@ -1,0 +1,133 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto;">
+    <h2 style="margin-top: 20px;">Edit Profile</h2>
+    <hr/>
+    {% if error_message %}
+        <p class="text-danger">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="/edit-profile/{{user.0}}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">username:</label>
+            <input
+                type="text"
+                class="form-control"
+                id="username"
+                name="username"
+                style="max-width: 500px; margin: margin-left;"
+                required
+                disabled
+                value="@{{ user.2 }}"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Full Name: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="full-name"
+                name="full-name"
+                style="max-width: 500px; margin: margin-left;"
+                value="{{ user.1 }}"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Email Address: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="email-address"
+                name="email-address"
+                style="max-width: 500px; margin: margin-left;"
+                value="{{ user.4 }}"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Registeration Date: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="registeration-date"
+                name="registeration-date"
+                style="max-width: 500px; margin: margin-left;"
+                disabled
+                value="{{ user.6 }}"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Account Type: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="account-type"
+                name="account-type"
+                style="max-width: 500px; margin: margin-left;"
+                required
+                disabled
+                value="{{ user.7 }}"
+            >
+        </div>
+        <hr/>
+        {% if user.7 != 'Admin'%}
+            <div class="form-group">
+                <label for="content">Birth Date: </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="birth-date"
+                    name="birth-date"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                    value="{{ user.9 }}"
+                >
+            </div>
+            <div class="form-group">
+                <label for="content">Profession: </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="profession"
+                    name="profession"
+                    style="max-width: 500px; margin: margin-left;"
+                    value="{{ user.10 }}"
+                >
+            </div>
+            <div class="form-group">
+                <label for="content">Skills: </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="skills"
+                    name="skills"
+                    style="max-width: 500px; margin: margin-left;"
+                    value="{{ user.11 }}"
+                >
+            </div>
+            <hr/>
+        {% endif%}
+        {% if user.7 == 'RegularUser'%}
+            <div class="form-group">
+                <label for="content">CV/Portfolio URL: </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="portfolio_url"
+                    name="portfolio_url"
+                    style="max-width: 500px; margin: margin-left;"
+                    value="{{ user }}"
+                >
+            </div>
+            <hr/>
+        {% endif%}
+        <button type="submit" class="btn btn-primary">
+            EDIT PROFILE
+        </button>
+        <button class="btn btn-danger" onclick="location.href='/user/{{user_id}}'" type="button">
+            CANCEL
+        </button>
+        <br><br>
+    </form>
+</div>
+{% endblock %}

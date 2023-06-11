@@ -1,0 +1,45 @@
+{% extends 'career/base.html' %}
+
+{% block content %}
+    <h2 style="margin-top: 20px;">User List</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>DP URL</th>
+                <th>Date of Registration</th>
+                <th>User Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.0 }}</td>
+                <td>{{ user.1 }}</td>
+                <td>{{ user.2 }}</td>
+                <td>{{ user.4 }}</td>
+                <td>
+                    {% if user.5 %}
+                        <a href="{{ user.5 }}" >click</a>
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+                <td>{{ user.6 }}</td>
+                <td>
+                    {% if user.7 == "RegularUser" %}
+                        Regular User
+                    {% elif user.7 %}
+                        {{ user.7 }}
+                    {% else %}
+                        N/A
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

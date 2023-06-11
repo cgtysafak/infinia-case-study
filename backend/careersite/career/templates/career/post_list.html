@@ -1,0 +1,48 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div class="h-100 d-flex align-items-center justify-content-center mt-5">
+    <div>
+        {% if posts %}
+            {% for post in posts %}
+                <tr>
+                    <div class="card" style="width: 48rem;">
+                        <div class="card-body">
+                            <h5 class="card-title">{{post.5}} <a href='/user/{{post.1}}'><span class="text-muted">@{{post.6}}</span></a></h5>
+                            <p class="card-subtitle mb-2 text-muted">Date: {{post.4}}</p>
+                            <hr/>
+                            <p class="card-text">{{post.3}}</p>
+                            <hr/>
+                            <button class="btn btn-outline-primary btn-sm" onclick="location.href='/post-detail/{{post.0}}'" type="button">
+                                View Details
+                            </button>
+                            {% if post.1 == user_id %}
+                                <button class="btn btn-outline-danger btn-sm" onclick="location.href='/delete-post/{{post.0}}'" type="button">
+                                    Delete
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </tr>
+                <br>
+            {% endfor %}
+        {% else %}
+            <p>There are currently no posts in the system!</p>
+        {% endif %}
+    </div>
+</div>
+
+<form action="/post-list/" method="get">
+
+  <label for="ordering">Order By:</label>
+  <select name="ordering" id="ordering">
+    <option value="">Default</option>
+    <option value="oldest">Oldest</option>
+    <option value="newest">Newest</option>
+    <option value="most_popular">Most Popular</option>
+  </select>
+
+  <button type="submit">Filter</button>
+</form>
+
+{% endblock %}

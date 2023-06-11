@@ -1,0 +1,63 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+
+<div class="h-100 d-flex align-items-center justify-content-center mt-5">
+    <div>
+        <tr>
+            <div class="card" style="width: 48rem;">
+                <div class="card-body">
+                    <h2 class="card-title">Profile page for @{{user.2}}</h2>
+                    <hr/>
+                    <p class="card-title"><b>Full Name:</b> {{user.1}}</p>
+                    <p class="card-title"><b>Email Address:</b> {{user.4}}</p>
+                    <p class="card-title"><b>Registeration Date:</b> {{user.6}}</p>
+                    <p class="card-title"><b>Account Type:</b> {{user.7}}</p>
+                    <hr/>
+                    {% if profile_user_type == 'RegularUser'%}
+                        <p class="card-title"><b>Current Company:</b> {{user_info.7}}</p>
+                        <p class="card-title"><b>Profession:</b> {{user_info.6}}</p>
+                        <p class="card-title"><b>Skills:</b> {{user_info.7}}</p>
+                        <p class="card-title"><b>Average Profile Grade:</b> {{user_info.10}}</p>
+                        <hr/>
+                    {% elif profile_user_type == 'CareerExpert' or profile_user_type == 'Recruiter'%}
+                        <p class="card-title"><b>Current Company:</b> {{user_info.7}}</p>
+                        <p class="card-title"><b>Profession:</b> {{user_info.6}}</p>
+                        <p class="card-title"><b>Skills:</b> {{user_info.8}}</p>
+                        <hr/>
+                    {% endif %}
+                    {% if current_user_id == user.0 %}
+                        <button class="btn btn-primary" onclick="location.href='/edit-profile/{{current_user_id}}'" type="button">
+                            Edit Profile
+                        </button>
+                        <br><br>
+                        <div class="alert alert-warning" role="alert">
+                            THATS YOUR PROFILE.
+                        </div>
+                    {% elif current_user_type == 'CareerExpert' and profile_user_type == 'RegularUser'%}
+                        <button class="btn btn-primary" onclick="location.href='/grading/{{user.0}}'" type="button">
+                            Grade this profile!
+                        </button>
+                        <br><br>
+                        <div class="alert alert-danger" role="alert">
+                            THATS NOT YOUR PROFILE.
+                        </div>
+                    {% elif current_user_type == 'Admin'%}
+                            <br>
+                    {% else %}
+                        <button class="btn btn-primary" onclick="location.href='/add-connection/{{user.0}}'" type="button">
+                            Add connection!
+                        </button>
+                        <br><br>
+                        <div class="alert alert-danger" role="alert">
+                            THATS NOT YOUR PROFILE.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </tr>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

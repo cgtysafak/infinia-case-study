@@ -1,0 +1,29 @@
+{% block content %}
+
+<div>
+    <h1>Past Job Openings You Posted</h1>
+
+    <table>
+        <tr>
+            <th>Job Title</th>
+            <th>Company</th>
+            <th>Due Date</th>
+            <th>Profession</th>
+            <th>Location</th>
+            <th>Requirements</th>
+        </tr>
+        {% for job in pastOp %}
+            <tr>
+                <td>{{job.0}}</td>
+                <td>{{job.1}}</td>
+                <td>{{job.2}}</td>
+                <td>{{job.3}}</td>
+                <td>{{job.4}}</td>
+                <td>{{job.5}}</td>
+            </tr>
+
+
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

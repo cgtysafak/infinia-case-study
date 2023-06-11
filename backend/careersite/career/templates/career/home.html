@@ -1,0 +1,20 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+
+<div class="h-100 d-flex align-items-center justify-content-center mt-5">
+    <p>Welcome to the CareerSite, <b>{{ username }}</b>! Your user type is <b>{{ user_type }}</b>! Your user ID is <b>{{ user_id }}</b>!</p>
+</div>
+
+    <h2> Most applied job </h2>
+
+    <p> {{ most_popular_job.1 }} : {{ most_popular_job.2 }} </p>
+
+    <hr> <hr>
+
+    <h2> Average age of users </h2>
+    <p> {{ average_age.0 }} </p>
+
+
+
+{% endblock %}

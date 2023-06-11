@@ -1,0 +1,79 @@
+{% extends 'career/base.html' %}
+
+{% block content %}
+    <div style="max-width: 500px; margin: 0 auto;">
+        <h2 style="margin-top: 20px;">Sign Up</h2>
+        {% if error_message %}
+            <p class="text-danger">{{ error_message }}</p>
+        {% endif %}
+        <form method="post" action="{% url 'signup' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="fullname" >Full name:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="fullname"
+                    name="fullname"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="username" >Username:</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="email" >Email address:</label>
+                <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="usertype">User Type</label>
+                <select class="form-control" id="usertype" name="usertype" required>
+                    <option value="" disabled selected>Select user type</option>
+                    <option value="Job Hunter">Job Hunter</option>
+                    <option value="Recruiter">Recruiter</option>
+                    <option value="Career Expert">Career Expert</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                >
+            </div>
+            <div class="form-group">
+                <label for="passwordverification">Password (again):</label>
+                <input
+                    type="password"
+                    class="form-control"
+                    id="passwordverification"
+                    name="passwordverification"
+                    style="max-width: 500px; margin: margin-left;"
+                    required
+                >
+            </div>
+            <button type="submit" class="btn btn-primary">SIGN UP</button>
+            <a href="{% url 'login' %}" style="margin-left: 30px;">Click to login!</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div class="h-100 d-flex align-items-center justify-content-center mt-5">
+    <div>
+        <tr>
+            <div class="card" style="width: 48rem;">
+                <div class="card-body">
+                    <h5 class="card-title">{{post.5}} <a href='/user/{{post.1}}'><span class="text-muted">@{{post.6}}</span></a></h5>
+                    <p class="card-subtitle mb-2 text-muted">Date: {{post.4}}</p>
+                    <hr/>
+                    <p class="card-text">{{post.3}}</p>
+                    {% if post.1 == user_id %}
+                        <button class="btn btn-outline-danger btn-sm" onclick="location.href='/delete-post/{{post.0}}'" type="button">
+                            Delete Post
+                        </button>
+                    {% endif %}
+                    <hr/>
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="card bg-body-tertiary" style="width: 46rem;">
+                                <div class="card-body">
+                                    <h5 class="card-title"><small>{{comment.5}} <a href='/user/{{comment.2}}'><span class="text-muted">@{{comment.6}}</span></a></small></h5>
+                                    <p class="card-subtitle mb-2 text-muted"><small>Date: {{comment.4}}</small></p>
+                                    <hr/>
+                                    <p class="card-text">{{comment.3}}</p>
+                                    {% if comment.2 == user_id %}
+                                        <button class="btn btn-outline-danger btn-sm" onclick="location.href='/delete-comment/{{comment.0}}'" type="button">
+                                            Delete Comment
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <br>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted"><em>There are currently no comments for this post!</em></p>
+                    {% endif %}
+                    <form method="post" action="/post-detail/{{post.0}}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="content"
+                                name="content"
+                                style="max-width: 500px; margin: margin-left; rows: 3;"
+                                required
+                                placeholder="Add a comment..."
+                            >
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
+                </div>
+            </div>
+        </tr>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

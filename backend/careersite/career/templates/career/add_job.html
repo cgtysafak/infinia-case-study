@@ -1,0 +1,123 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto;">
+    <h2 style="margin-top: 20px;">Add New Job Opening</h2>
+    <hr/>
+    {% if error_message %}
+        <p class="text-danger">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="{% url 'add-job' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Job Title*: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="job-title"
+                name="job-title"
+                style="max-width: 500px; margin: margin-left;"
+                required
+                placeholder="Junior Software Developer"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Job Description: </label>
+            <textarea
+                type="text"
+                class="form-control"
+                id="job-description"
+                name="job-description"
+                style="max-width: 500px; margin: margin-left;"
+                placeholder="We are looking for a new-grad software developer to join our team."
+                rows="3"
+            ></textarea>
+        </div>
+        <div class="form-group">
+            <label for="content">Job Requirements: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="job-requirements"
+                name="job-requirements"
+                style="max-width: 500px; margin: margin-left;"
+                placeholder="Bachelor's degree in Computer Science or related field."
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Job Profession: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="job-profession"
+                name="job-profession"
+                style="max-width: 500px; margin: margin-left;"
+                placeholder="Engineer"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Due Date*: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="due-date"
+                name="due-date"
+                style="max-width: 500px; margin: margin-left;"
+                required
+                placeholder="2023-12-31"
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Job Location*: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="job-location"
+                name="job-location"
+                style="max-width: 500px; margin: margin-left;"
+                required
+                placeholder="London (Remote), etc."
+            >
+        </div>
+        <hr/>
+        <div class="form-group">
+            <label for="content">Company Name: </label>
+            <input
+                type="text"
+                class="form-control"
+                style="max-width: 500px; margin: margin-left;"
+                value="{{ company.3 }}"
+                disabled
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Company Description: </label>
+            <input
+                type="text"
+                class="form-control"
+                style="max-width: 500px; margin: margin-left;"
+                value="{{ company.2 }}"
+                disabled
+            >
+        </div>
+        <div class="form-group">
+            <label for="content">Company Location: </label>
+            <input
+                type="text"
+                class="form-control"
+                style="max-width: 500px; margin: margin-left;"
+                value="{{ company.1 }}"
+                disabled
+            >
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">
+            CREATE JOB OPENING
+        </button>
+        <button class="btn btn-danger" onclick="location.href='/post-list'" type="button">
+            CANCEL
+        </button>
+        <br><br>
+    </form>
+</div>
+{% endblock %}

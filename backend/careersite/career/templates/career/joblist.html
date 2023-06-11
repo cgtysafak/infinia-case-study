@@ -1,0 +1,68 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 style="margin-top: 20px;">Search</h2>
+    <form action="/job-list/" method="get">
+        <input type="text" id="search-input" name="term" placeholder="Search term">
+        <button type="submit">Search</button>
+    </form>
+    <hr/>
+    <h2>Job List</h2>
+    {% if user_type == 'Recruiter' %}
+        <button class="btn btn-outline-primary btn-sm" onclick="location.href='/add-job'" type="button">
+            Add New Job Opening
+        </button>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Profession</th>
+                <th>Location</th>
+                <th>Requirements</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>{{job.7}}</td>
+                <td>{{job.3}}</td>
+                <td>{{job.9}}</td>
+                <td>{{job.10}}</td>
+                <td>{{job.11}}</td>
+                <td>
+                    {% if user_id != job.5 %}
+                        <button
+                            class="btn btn-outline-primary btn-sm"
+                            onclick="location.href='/job-detail/{{job.6}}'"
+                            type="button"
+                            {% if job.6 in applied_job_ids %} disabled {% endif %}
+                        >
+                            {% if job.6 in applied_job_ids %} Already Applied {% else %} View Details {% endif %}
+                        </button>
+                    {% else %}
+                        <button
+                            class="btn btn-outline-secondary btn-sm"
+                            onclick="location.href='/edit-job/{{job.6}}'"
+                            type="button"
+                        >
+                            Edit Job
+                        </button>
+                        <button
+                            class="btn btn-outline-danger btn-sm"
+                            onclick="location.href='/delete-job/{{job.6}}'"
+                            type="button"
+                        >
+                            Delete Job
+                        </button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

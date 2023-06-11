@@ -1,0 +1,61 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+
+<div class="h-100 d-flex align-items-center justify-content-center mt-5">
+    <div>
+        <tr>
+            <div class="card" style="width: 48rem;">
+                <div class="card-body">
+                    <h2 class="card-title">{{job.3}}</h2>
+                    <h5 class="card-subtitle">{{job.12}}</h5>
+                    <hr/>
+                    <p class="card-title"><b>Job Description:</b> {{job.8}}</p>
+                    <p class="card-title"><b>Job Requirements:</b> {{job.7}}</p>
+                    <p class="card-title"><b>Due Date:</b> {{job.4}}</p>
+                    <p class="card-title"><b>Job Location:</b> {{job.6}}</p>
+                    <hr/>
+                    <p class="card-title"><b>Company Name:</b> {{job.12}}</p>
+                    <p class="card-title"><b>Company Description:</b> {{job.11}}</p>
+                    <p class="card-title"><b>Company Location:</b> {{job.10}}</p>
+                    <hr/>
+                    {% if user_type != 'Recruiter' %}
+                        <form method="post" action="/job-detail/{{job.2}}">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <label for="personal-information"><em>Personal Information</em></label>
+                                <textarea
+                                    class="form-control"
+                                    id="personal-information"
+                                    name="personal-information"
+                                    style="margin: margin-left;"
+                                    rows="3"
+                                    required
+                                    placeholder="Describe yourself in detail. What are your career goals? Why do you want to work for this company? What relevant experience do you have?"
+                                ></textarea>
+                            </div>
+                            <br>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Apply this job!
+                            </button>
+                        </form>
+                        <br>
+                        <div class="alert alert-warning" role="alert">
+                            Recruiters will view the CV that is on your profile when you apply for this job. Update your CV on <a class="alert-link" href="http://127.0.0.1:8000/user">your profile</a> when needed.
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">
+                            Recruiters cannot apply for job openings.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </tr>
+        <br>
+    </div>
+</div>
+
+{% endblock %}

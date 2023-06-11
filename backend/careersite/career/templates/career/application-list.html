@@ -1,0 +1,31 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2 style="margin-top: 20px;">Your Past Job Applications</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Job Title</th>
+                    <th>Company</th>
+                    <th>Date of Application</th>
+                    <th>Profession</th>
+                    <th>Location</th>
+                    <th>Requirements</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for job in pastJobs %}
+                    <tr>
+                        <td>{{job.0}}</td>
+                        <td>{{job.1}}</td>
+                        <td>{{job.2}}</td>
+                        <td>{{job.3}}</td>
+                        <td>{{job.4}}</td>
+                        <td>{{job.5}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+
+<h1> Grading page</h1>
+
+<h2> {{ user.2 }}</h2>
+
+<form method="post" action="/grading/{{user_id}}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="grade" >Grade: </label>
+            <input
+                type="number"
+                class="form-control"
+                id="grade"
+                name="grade"
+                style="max-width: 500px; margin: margin-left;"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="feedback" >Feedback: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="feedback"
+                name="feedback"
+                style="max-width: 500px; margin: margin-left; rows: 3;"
+                required
+            >
+        </div>
+            <br>
+        <button type="submit" class="btn btn-primary">
+            GRADE
+        </button>
+        <button class="btn btn-danger" onclick="location.href='/post-list'" type="button">
+            CANCEL
+        </button>
+        <br><br>
+</form>
+
+
+{% endblock %}

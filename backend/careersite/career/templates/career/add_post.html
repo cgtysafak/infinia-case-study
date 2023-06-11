@@ -1,0 +1,42 @@
+{% extends 'career/baseauth.html' %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 0 auto;">
+    <h2 style="margin-top: 20px;">Add New Post</h2>
+    {% if error_message %}
+        <p class="text-danger">{{ error_message }}</p>
+    {% endif %}
+    <form method="post" action="{% url 'add-post' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title" >Title: </label>
+            <input
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                style="max-width: 500px; margin: margin-left;"
+                required
+            >
+        </div>
+        <div class="form-group">
+            <label for="content" >Content: </label>
+            <textarea
+                type="text"
+                class="form-control"
+                id="content"
+                name="content"
+                style="max-width: 500px; margin: margin-left; rows: 3;"
+                    
+            ></textarea>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">
+            ADD POST
+        </button>
+        <button class="btn btn-danger" onclick="location.href='/post-list'" type="button">
+            CANCEL
+        </button>
+    </form>
+</div>
+{% endblock %}
