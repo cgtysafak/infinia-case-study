@@ -33,5 +33,11 @@
             <button type="submit" class="btn btn-primary">LOGIN</button>
             <a href="{% url 'signup' %}" style="margin-left: 30px;">Click to Sign Up!</a>
         </form>
+        <br>
+        {% if a %}
+            <div class="alert alert-danger" role="alert">
+                Username or password is incorrect!
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

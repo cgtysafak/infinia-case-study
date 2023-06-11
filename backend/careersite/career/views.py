@@ -73,8 +73,9 @@ class LoginView(View):
                 return HttpResponseRedirect("/home")
         else:
             messages.error(request, 'User cannot be found')
+            error_message = "nom"
             
-            return render(request, 'career/login.html')
+            return render(request, 'career/login.html', {'a': error_message })
 
 
 class SignUpView(View):
@@ -601,7 +602,7 @@ class ProfileEditView(View):
         birth_date  = request.POST.get("birth-date", "")
         profession = request.POST.get("profession", "")
         skills = request.POST.get("skills", "")
-        portfolio_url = request.POST.get("portfolio-url", "")
+        portfolio_url = request.POST.get("portfolio_url", "")
 
         if full_name != "" and email_address != "":
             cursor = connection.cursor()

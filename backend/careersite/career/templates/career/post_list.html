@@ -3,6 +3,25 @@
 {% block content %}
 <div class="h-100 d-flex align-items-center justify-content-center mt-5">
     <div>
+        <div style="display: flex; flex-direction: row;">
+            <div style="margin-right: 10px;">
+                <button class="btn btn-primary" onclick="location.href='/add-post'" type="button">
+                    Add a new post
+                </button>
+            </div>
+            <div style="margin-left: auto; display: flex; flex-direction: row;">
+                <form action="/post-list/" method="get" style="display: flex; flex-direction: row; {width:430px !important;}">
+                    <select class="form-select form-select-sm" name="ordering" id="ordering" style="margin-right: 10px;">
+                        <option value="">Order by: Default</option>
+                        <option value="oldest">Order by: Oldest</option>
+                        <option value="newest">Order by: Newest</option>
+                        <option value="most_popular">Order by: Most Popular</option>
+                    </select>
+                    <button class="btn btn-outline-success w-100" type="submit">Apply ordering</button>
+                </form>
+            </div>
+        </div>
+        <hr/>
         {% if posts %}
             {% for post in posts %}
                 <tr>
@@ -31,18 +50,5 @@
         {% endif %}
     </div>
 </div>
-
-<form action="/post-list/" method="get">
-
-  <label for="ordering">Order By:</label>
-  <select name="ordering" id="ordering">
-    <option value="">Default</option>
-    <option value="oldest">Oldest</option>
-    <option value="newest">Newest</option>
-    <option value="most_popular">Most Popular</option>
-  </select>
-
-  <button type="submit">Filter</button>
-</form>
 
 {% endblock %}

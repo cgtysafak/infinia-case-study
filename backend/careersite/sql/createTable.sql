@@ -1,7 +1,5 @@
 DROP VIEW IF EXISTS job_application_count;
 DROP VIEW IF EXISTS average_age_view;
-DROP TABLE IF EXISTS Message;
-DROP TABLE IF EXISTS Chat;
 DROP TABLE IF EXISTS Application;
 DROP TABLE IF EXISTS Blocked;
 DROP TABLE IF EXISTS Connection;
@@ -164,32 +162,6 @@ CREATE TABLE Comment (
     FOREIGN KEY (post_id) REFERENCES Post(post_id)
 );
 
-CREATE TABLE Message(
-    message_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    sender_id INT NOT NULL,
-    receiver_id INT NOT NULL,
-    content TEXT NOT NULL,
-    timestamp DATETIME
-);
-
-CREATE TABLE Chat(
-    user_id1 INTEGER NOT NULL,
-    user_id2 INTEGER NOT NULL,
-    PRIMARY KEY(user_id1, user_id2)
-);
-
-CREATE TRIGGER insert_into_chat
-AFTER INSERT ON Message
-FOR EACH ROW
-WHEN (NEW.sender_id <> NEW.receiver_id)
-BEGIN
-    INSERT OR IGNORE INTO Chat(user_id1, user_id2)
-    VALUES (
-        CASE WHEN NEW.sender_id < NEW.receiver_id THEN NEW.sender_id ELSE NEW.receiver_id END,
-        CASE WHEN NEW.sender_id < NEW.receiver_id THEN NEW.receiver_id ELSE NEW.sender_id END
-    );
-END;
-
 CREATE TABLE Notification(
     notification_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
@@ -232,7 +204,7 @@ CREATE TABLE Application(
 INSERT INTO User(full_name, username, password, email_address, dp_url, date_of_registration, user_type)
 VALUES
     ('John Doe', 'johndoe', 'password123', 'johndoe@example.com', 'https://example.com/johndoe.jpg', '2023-05-13 10:30:00', 'Artist'),
-    ('Jane Smith', 'janesmith', 'letmein', 'janesmith@example.com', 'https://example.com/janesmith.jpg', '2023-05-14 15:45:00', 'Artist'),
+    ('Jane Smith', 'janesmith', 'letmein', 'janesmith@example.com', 'https://example.com/janesmith.jpg', '2023-05-14 15:45:00', 'Recruiter'),
     ('Robert Johnson', 'robjohnson', 'secret123', 'robjohnson@example.com', NULL, '2023-05-15 09:00:00', 'Artist'),
     ('Adison Miner', 'admin', 'admin123', 'admin@example.com', NULL, '2023-05-24 20:15:00', 'Admin'),
     ('Jake Ray', 'jakeray', 'hello987', 'jaker@example.com', 'https://example.com/jaker.jpg', '2023-01-09 22:33:44', 'CareerExpert'),
@@ -244,11 +216,11 @@ VALUES
 
 INSERT INTO NonAdmin(user_id, company_id, birth_date, profession, skills)
 VALUES
-    (1, 1, '1985-07-17', 'Junior Programmer', 'Python, Java, C#, Ruby, Swift'),
-    (2, 2, '1974-11-28', 'Human Resources', 'Finance, Business' ),
-    (3, 3, '2000-06-09', 'Professor', 'Machine Engineering, Statistics'),
-    (5, 2, '1989-03-13', 'Career Expert', 'Career Advisor'),
-    (6, 4, '1973-06-09', 'Software Talent Hunter', 'MS Office');
+    (1, 1, '1985-07-17', 'Director', 'Film Production, Scriptwriting, Cinematography, Editing'),
+    (2, 2, '1974-11-28', 'Screenwriter', 'Storytelling, Plot Development, Dialogue Writing'),
+    (3, 3, '2000-06-09', 'Actor', 'Method Acting, Improvisation, Voice Modulation'),
+    (5, 2, '1989-03-13', 'Illustrator', 'Digital Illustration, Traditional Art Techniques'),
+    (6, 4, '1973-06-09', 'Actress', 'Stage Acting, Character Development, Emotional Range');
 
 INSERT INTO Artist(user_id, portfolio_url, avg_career_grd)
 VALUES
@@ -270,35 +242,35 @@ VALUES
 
 INSERT INTO Experience(experience_id, user_id, description, start_date, end_date)
 VALUES
-    (1, 1, 'Job at Microsoft', '2019-08-30', '2022-04-04'),
-    (2, 2, 'Job at Apple', '2022-07-25', '2023-02-01'),
-    (3, 2, 'Job at Google', '2016-04-29', '2023-05-06'),
-    (4, 3, 'Internship at Intel', '2022-09-18', '2022-10-25'),
-    (5, 5, 'Job at Apple', '2005-01-13', '2018-03-23'),
-    (6, 1, 'University', '2012-09-12', '2016-06-24'),
-    (7, 2, 'University', '2008-07-27', '2012-05-05'),
-    (8, 3, 'University', '2018-08-29', '2022-06-14');
+    (1, 1, 'Artist at Art Gallery', '2019-08-30', '2022-04-04'),
+    (2, 2, 'Freelance Artist', '2022-07-25', '2023-02-01'),
+    (3, 2, 'Artist at Creative Studio', '2016-04-29', '2023-05-06'),
+    (4, 3, 'Art Intern at Contemporary Museum', '2022-09-18', '2022-10-25'),
+    (5, 5, 'Artist at Art Studio', '2005-01-13', '2018-03-23'),
+    (6, 1, 'Art Student at University', '2012-09-12', '2016-06-24'),
+    (7, 2, 'Art Student at University', '2008-07-27', '2012-05-05'),
+    (8, 3, 'Art Student at University', '2018-08-29', '2022-06-14');
 
 INSERT INTO Company(company_id, location, description, name)
 VALUES
-    (1, 'Washington', 'Microsoft is a multinational technology corporation.', 'Microsoft Corporation'),
-    (2, 'Cupertino', 'Apple produces consumer electronics and software.', 'Apple Inc.'),
-    (3, 'California', 'Google is known for internet-related products.', 'Google LLC'),
-    (4, 'California', 'Intel manufactures computer processors and hardware.', 'Intel');
+    (1, 'Paris', "The Louvre is the world's largest art museum.", 'Louvre Museum'),
+    (2, 'Florence', 'The Uffizi Gallery houses a significant collection of Renaissance art.', 'Uffizi Gallery'),
+    (3, 'New York', 'The Museum of Modern Art (MoMA) showcases modern and contemporary art.', 'MoMA'),
+    (4, 'London', 'The Tate Modern is a renowned contemporary art gallery.', 'Tate Modern');
 
 INSERT INTO Employment(experience_id, company_id, profession)
 VALUES
-    (1, 1, 'Junior Software Developer'),
-    (2, 2, 'Project Manager'),
-    (3, 3, 'Data Analyst'),
-    (4, 4, 'Senior Software Developer'),
-    (5, 2, 'Software Engineer');
+    (1, 1, 'Painter'),
+    (2, 2, 'Sculptor'),
+    (3, 3, 'Photographer'),
+    (4, 4, 'Illustrator'),
+    (5, 2, 'Graphic Designer');
 
 INSERT INTO Education(experience_id, school_name, degree, department, cgpa)
 VALUES
-    (6, 'Bilkent University', "Bachelor's Degree", 'Electrical-Electronics Engineering', 2.92),
-    (7, 'Harvard University', "Bachelor's Degree", 'Software Engineering', 3.01),
-    (8, 'Oxford University', "Bachelor's Degree", 'Computer Science', 2.89);
+    (6, 'Bilkent University', "Bachelor's Degree", 'Fine Arts', 2.92),
+    (7, 'Harvard University', "Bachelor's Degree", 'Art History', 3.01),
+    (8, 'Oxford University', "Bachelor's Degree", 'Visual Arts', 2.89);
 
 INSERT INTO CareerGrade(grade_id, user_id, expert_id, grade, feedback_text)
 VALUES
@@ -307,20 +279,20 @@ VALUES
 
 INSERT INTO Job(company_id, recruiter_id, job_id, title, due_date, profession, location, job_requirements, description)
 VALUES
-    (1, 2, 1, 'Junior Software Developer', '2023-07-16', 'Computer Engineer', 'Los Angeles', 'Python, Java', 'Full-Time Software Engineering'),
-    (2, 2, 2, 'Project Manager', '2023-06-06', 'Engineer', 'New York', 'C#, Javascript, Senior Developer', 'Project Manager for app.'),
-    (2, 6, 3, 'Front-end Developer', '2023-06-06', 'Developer', 'Ankara', 'Bootstrap', 'Front-end developer for DB project.'),
-    (3, 2, 4, 'Project Manager', '2023-06-06', 'Engineer', 'New York', 'C#, Javascript', 'Project Manager for app.'),
-    (4, 6, 5, 'Backend Developer', '2023-06-06', 'Developer', 'New York', 'C#, Javascript', 'Project Manager for app.'),
-    (3, 2, 6, 'Software Tester', '2023-06-06', 'Tester', 'Ankara', 'C#, Javascript', 'Project Manager for app.'),
-    (1, 6, 7, 'Senior Backend Developer', '2023-06-06', 'Developer', 'New York', 'Senior Developer', 'Project Manager for app.'),
-    (4, 6, 8, 'Technical Lead/Manager', '2023-06-06', 'Tech Lead', 'Istanbul', 'Java, Javascript', 'Project Manager for app.');
+    (1, 2, 1, 'Painter', '2023-07-16', 'Fine Arts', 'Los Angeles', 'Oil Painting, Watercolor', 'Full-Time Artist'),
+    (2, 2, 2, 'Art Gallery Manager', '2023-06-06', 'Art Administrator', 'New York', 'Curating, Art Marketing', 'Manage operations of an art gallery.'),
+    (2, 6, 3, 'Graphic Designer', '2023-06-06', 'Designer', 'Ankara', 'Adobe Photoshop, Illustrator', 'Create visually appealing designs for digital and print media.'),
+    (3, 2, 4, 'Art Director', '2023-06-06', 'Creative Director', 'New York', 'Art Direction, Visual Communication', 'Lead and oversee artistic direction for creative projects.'),
+    (4, 6, 5, 'Sculptor', '2023-06-06', 'Sculptor', 'New York', 'Stone Carving, Clay Modeling', 'Create sculptures using various materials and techniques.'),
+    (3, 2, 6, 'Art Restorer', '2023-06-06', 'Restorer', 'Ankara', 'Art Conservation, Preservation', 'Restore and preserve artwork to maintain its integrity.'),
+    (1, 6, 7, 'Photographer', '2023-06-06', 'Photographer', 'New York', 'Portrait Photography, Landscape Photography', 'Capture compelling images through photography.'),
+    (4, 6, 8, 'Art Instructor', '2023-06-06', 'Art Educator', 'Istanbul', 'Teaching, Art Instruction', 'Provide guidance and instruction to aspiring artists.');
 
 INSERT INTO Post(user_id, title, content, date)
 VALUES
-    (1, 'New Job!', 'I have a new job.', '2023-03-13 10:32:54'),
-    (2, 'Seminar in Finland', 'I attended the seminar in Finland.', '2023-05-03 23:48:39'),
-    (3, 'Promotion in Company', 'I got a promotion in my company.', '2023-02-25 13:18:57');
+    (1, 'Art Exhibition Opening', 'I am excited about the opening of my art exhibition.', '2023-03-13 10:32:54'),
+    (2, 'Art Workshop in Finland', 'I had an amazing time attending an art workshop in Finland.', '2023-05-03 23:48:39'),
+    (3, 'Art Commission Success', 'I successfully completed a commissioned art project.', '2023-02-25 13:18:57');
 
 INSERT INTO Comment(comment_id, post_id, user_id, content, date)
 VALUES
@@ -328,7 +300,7 @@ VALUES
     (2, 1, 3, 'Cannot wait to work with you!', '2023-03-14 08:17:39'),
     (3, 2, 1, 'I was there too.', '2023-05-04 07:53:17'),
     (4, 3, 2, 'Congratulations', '2023-02-25 16:58:03'),
-    (5, 3, 1, 'Congrats on your promotion!', '2023-02-26 06:53:00');
+    (5, 3, 1, 'Congrats on your success!', '2023-02-26 06:53:00');
 
 INSERT INTO Connection(user_id1, user_id2, status)
 VALUES
@@ -344,23 +316,9 @@ INSERT INTO Application(user_id, job_id, date, personal_info, cv_url)
 VALUES
     (1, 1, '2023-05-24 10:20:34', 'My name is John.', 'https://example.com/johndoe-cv.pdf'),
     (1, 6, '2023-06-01 23:38:46', 'My name is John.', 'https://example.com/johndoe-cv.pdf'),
-    (3, 1, '2023-05-25 05:12:58', 'I am a computer scientist.', 'https://example.com/robj-cv.pdf'),
-    (3, 2, '2023-03-16 13:19:52', 'I worked at Intel for 5 years.', 'https://example.com/robj-cv.pdf'),
-    (5, 3, '2023-04-23 12:26:37', 'I am an expert at data science.', 'https://example.com/cvofjakeray.pdf');
-
-INSERT INTO Chat(user_id1, user_id2)
-VALUES
-    (1, 2),
-    (1, 3),
-    (5, 2);
-
-INSERT INTO Message(sender_id, receiver_id, content, timestamp)
-VALUES
-    (1, 2, 'Hello', '2023-05-07 13:10:24'),
-    (2, 1, 'Hi', '2023-05-07 13:10:24'),
-    (1, 3, 'How are you?', '2023-04-03 15:13:49'),
-    (5, 2, 'Can you check my profile?', '2023-05-24 19:41:20');
-
+    (3, 1, '2023-05-25 05:12:58', 'I am an artist specializing in oil painting.', 'https://example.com/robj-cv.pdf'),
+    (3, 2, '2023-03-16 13:19:52', 'I have exhibited my sculptures in several galleries.', 'https://example.com/robj-cv.pdf'),
+    (5, 3, '2023-04-23 12:26:37', 'I am a professional photographer with experience in capturing landscapes and portraits.', 'https://example.com/cvofjakeray.pdf');
 
 CREATE VIEW job_application_count AS
 SELECT J.job_id, J.title, COUNT(user_id) AS application_count

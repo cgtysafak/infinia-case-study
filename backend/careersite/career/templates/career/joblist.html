@@ -3,9 +3,9 @@
 {% block content %}
 <div class="container">
     <h2 style="margin-top: 20px;">Search</h2>
-    <form action="/job-list/" method="get">
-        <input type="text" id="search-input" name="term" placeholder="Search term">
-        <button type="submit">Search</button>
+    <form style="margin-left: auto; display: flex; flex-direction: row;" action="/job-list/" method="get">
+        <input type="text" class="form-control" style="display: flex; flex-direction: row; width:430px !important" id="search-input" name="term" placeholder="Search term">
+        <button class="btn btn-primary" type="submit" style="margin-left: 10px">Search</button>
     </form>
     <hr/>
     <h2>Job List</h2>

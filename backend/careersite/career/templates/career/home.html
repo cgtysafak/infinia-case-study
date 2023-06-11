@@ -1,20 +1,15 @@
 {% extends 'career/baseauth.html' %}
 
 {% block content %}
-
-<div class="h-100 d-flex align-items-center justify-content-center mt-5">
-    <p>Welcome to the CareerSite, <b>{{ username }}</b>! Your user type is <b>{{ user_type }}</b>! Your user ID is <b>{{ user_id }}</b>!</p>
-</div>
-
-    <h2> Most applied job </h2>
-
-    <p> {{ most_popular_job.1 }} : {{ most_popular_job.2 }} </p>
-
-    <hr> <hr>
-
-    <h2> Average age of users </h2>
-    <p> {{ average_age.0 }} </p>
-
-
+    
+  <div class="container mt-4">
+    <div class="jumbotron">
+      <h1 class="display-4">Welcome to CareerSite </h1>
+      <p class="lead">Hello <b>{{ username }}</b>! Your user type is <b>{{ user_type }}</b>! Your user ID is <b>{{ user_id }}</b>!</p>
+      <hr class="my-4">
+      <p>Feel free to explore and ask whatever you want to learn</p>
+      <a class="btn btn-outline-primary" href="/post-list" role="button">Learn more</a>
+    </div>
+  </div>
 
 {% endblock %}
